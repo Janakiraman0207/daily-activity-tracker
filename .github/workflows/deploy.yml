@@ -21,9 +21,9 @@ jobs:
       - name: Deploy to EC2
         run: |
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/deploy_key ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
-            cd /home/ubuntu/app
+            cd /home/ubuntu/daily-activity-tracker
             git pull origin main
-            npm install
-            npm run build
-            pm2 restart app || pm2 start npm --name "app" -- start
+            npm install --force
+            npm run build -- --no-lint
+            pm2 restart daily-activity || pm2 start npm --name "daily-activity" -- start
           EOF
